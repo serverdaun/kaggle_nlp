@@ -12,6 +12,7 @@ transformers = "^4.47.1"
 datasets = "^3.2.0"
 scikit-learn = "^1.6.0"
 pandas = "^2.2.3"
+kaggle = "^1.6.17"
 
 
 [build-system]
