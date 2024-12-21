@@ -153,3 +153,6 @@ datasets/
 # Specific results (optional)
 results/
 outputs/
+
+# Tests folder
+tests/
