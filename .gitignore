@@ -1,0 +1,155 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Visual Studio Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Pyenv
+.python-version
+
+# Environments
+.env
+.envrc
+venv/
+venv.bak/
+ENV/
+
+# Data files
+*.csv
+*.tsv
+*.data
+*.dat
+*.npy
+*.npz
+
+# Logs
+*.log
+
+# Unit test / coverage reports
+.coverage
+.tox/
+.nox/
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Cython debug symbols
+cython_debug/
+
+# Intellisense
+.vscode/
+
+# Jupyter Notebook specific
+.ipynb_checkpoints/
+**/.ipynb_checkpoints
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# pyre type checker
+.pyre/
+
+# DVC
+.dvc/
+
+# TensorBoard log files
+logs/
+tensorboard/
+
+# Model files
+*.h5
+*.hdf5
+*.pkl
+*.model
+*.ckpt
+
+# Compiled files
+*.o
+*.out
+*.class
+
+# MacOS
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+*.~*
+
+# Exclude any files named 'secret', 'password', or 'credentials'
+secret*
+password*
+credentials*
+
+# Specific datasets (optional)
+data/
+datasets/
+
+# Specific results (optional)
+results/
+outputs/
