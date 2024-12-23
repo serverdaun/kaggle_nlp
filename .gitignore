@@ -156,3 +156,6 @@ outputs/
 
 # Tests folder
 tests/
+
+# Model folder
+model/
