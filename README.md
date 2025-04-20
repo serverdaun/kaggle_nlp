@@ -1,88 +1,65 @@
 # Kaggle Disaster Tweets NLP
 
-This project is focused on solving the Kaggle competition to classify tweets as disaster or non-disaster tweets using Natural Language Processing (NLP). The solution is built using Python and deep learning libraries such as PyTorch and Hugging Face Transformers.
+This project is focused on solving the Kaggle competition to classify tweets as disaster or non-disaster tweets using Natural Language Processing (NLP). The solution is built using Python and deep learning librarie PyTorch.
 
 Link for Kaggle competition: https://www.kaggle.com/competitions/nlp-getting-started
 
 ## Project Structure
 
-- **`main.ipynb`**: 
-  The Jupyter Notebook containing the main workflow for the project. It includes:
+- **`kaggle_nlp/main.py`**: 
+  The main script for model training and prediction. It includes:
   - Data loading and preprocessing
-  - Model training and evaluation
-  - Visualizations and insights
-  - Implementation of deep learning techniques
+  - Vocabulary building
+  - Model training and evaluation (BiLSTM)
+  - Saving/loading model and vocabulary
+  - Command-line interface for both training and prediction
 
-- **`predict_test.py`**: 
-  A script to make predictions on the test dataset using the trained model. It includes:
-  - Loading the trained model and tokenizer
-  - Preprocessing the test data
-  - Predicting disaster or non-disaster for each tweet
-
-- **`utilities.py`**: 
-  A utility script for data preprocessing. It provides helper functions such as:
+- **`kaggle_nlp/utils/utilities.py`**: 
+  Utility functions for data preprocessing, such as:
   - Cleaning and formatting keywords
   - Combining keyword and text fields
   - Removing unnecessary characters and links from tweets
 
+- **`kaggle_nlp/predict_test.py`**: 
+  (Legacy) Script for making predictions on the test dataset. The main workflow is now in `main.py`.
 
-- **`pyproject.toml`** & **`poetry.lock`**:
-  Configuration files for Poetry, which manage dependencies and ensure reproducibility.
+- **`kaggle_nlp/data/`**: 
+  Contains `train.csv` and `test.csv` datasets.
+
+- **`kaggle_nlp/model/`**: 
+  Stores trained model weights `bilstm.pt` and vocabulary `vocab.json`.
+
+- **`requirements.txt`**: 
+  Python dependencies for the project.
 
 ## How to Use
 
-1. **Install Poetry**:
-   Poetry is required for dependency management. Install it using:
+1. **Install Dependencies**:
+   Clone the repository and install dependencies (using pip or poetry):
    ```bash
-   curl -sSL https://install.python-poetry.org | python3 -
+   git clone https://github.com/serverdaun/kaggle_nlp
+   cd kaggle_nlp
+   pip install -r requirements.txt
+   ```
 
-2. **Install Dependencies**:
-    Clone repository and navigate to the project directory. Then install dependencies and activate virtual environment.
-    ```bash
-    git clone https://github.com/serverdaun/kaggle_nlp
-    cd kaggle_nlp
-   poetry install
-   poetry shell
+2. **Download Data**:
+   Download the competition data and place `train.csv` and `test.csv` in the `kaggle_nlp/data/` directory.
 
-3. **Download Data**:
-    Data can be downloaded using Kaggle API or directly from the competition page.
-    ```bash
-    mkdir data
-   cd data
-   kaggle competitions download -c nlp-getting-started
+3. **Model Training**:
+   Run the following command to train the model:
+   ```bash
+   python -m kaggle_nlp.main train --train_csv kaggle_nlp/data/train.csv --model_dir kaggle_nlp/model --epochs 10
+   ```
+   - Model weights and vocabulary will be saved in `kaggle_nlp/model/`.
 
-4. **Model Training**
-    - Open `main.ipynb` and run the cells sequentially to train the model and save it
+4. **Predictions**:
+   Run the following command to generate predictions on the test set:
+   ```bash
+   python -m kaggle_nlp.main predict --test_csv kaggle_nlp/data/test.csv --model_dir kaggle_nlp/model
+   ```
+   - The predictions will be saved as `predictions.csv` in the project root.
 
-5. **Predictions**
-   - Place your test data in `data/test.csv`.
-   - Run the `predict_test.py` script:
-     ```bash
-     python predict_test.py
-     ```
-   - The predictions will be saved as a CSV file.
-
-## Features
-
-- **Deep Learning**:
-  Utilizes Hugging Face Transformers for building and fine-tuning a sequence classification model.
-
-- **Data Preprocessing**:
-  - Handles missing data in the `keyword` column.
-  - Cleans and prepares text data by removing links and special characters.
-
-- **Modularity**:
-  - Preprocessing utilities are separated for reusability.
-  - The training and prediction pipelines are easy to modify and extend.
 
 ## Acknowledgments
 
-This project is inspired by Kaggle’s Disaster Tweets competition. It leverages Hugging Face Transformers for state-of-the-art NLP capabilities, alongside PyTorch for model implementation. Special thanks to the Hugging Face team for providing open-source tools that enable seamless model training and fine-tuning.
-
-## Future Improvements
-
-- Fine-tuning hyperparameters for better performance
-- Adding more robust preprocessing techniques
-- Exploring alternative model architectures
-
----
+This project is inspired by Kaggle’s Disaster Tweets competition. It leverages PyTorch for model implementation. Special thanks to the open-source community for providing tools that enable seamless model training and evaluation.
