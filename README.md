@@ -1,3 +1,4 @@
+![CI](https://github.com/serverdaun/kaggle_nlp/actions/workflows/ci.yml/badge.svg)
 # Kaggle Disaster Tweets NLP
 
 This project is focused on solving the Kaggle competition to classify tweets as disaster or non-disaster tweets using Natural Language Processing (NLP). The solution is built using Python and deep learning librarie PyTorch.
