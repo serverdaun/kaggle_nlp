@@ -14,7 +14,9 @@ class PreprocessingUtils:
             :tweets: DataFrame with cleaned keywords.
         """
         tweets['keyword'] = tweets['keyword'].fillna('unknown')
-        tweets['keyword'] = tweets['keyword'].apply(lambda x: x.replace('%20', ' '))
+        tweets['keyword'] = tweets['keyword'].apply(
+            lambda x: x.replace('%20', ' ')
+            )
         return tweets
 
     @staticmethod

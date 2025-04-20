@@ -2,6 +2,7 @@ import pytest
 import pandas as pd
 from kaggle_nlp.utils.utilities import PreprocessingUtils
 
+
 class TestPreprocessingUtils:
     def test_clean_keywords_nan_and_percent20(self):
         df = pd.DataFrame({'keyword': [None, 'fire%20alarm', 'earthquake']})

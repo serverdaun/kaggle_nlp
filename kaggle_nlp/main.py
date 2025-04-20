@@ -17,6 +17,7 @@ torch.manual_seed(SEED)
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
+
 # Vocabulary
 def build_vocab(tokenizer, texts, min_freq=2, max_size=30000):
     counter = Counter(itertools.chain.from_iterable(texts.apply(tokenizer)))
@@ -28,6 +29,7 @@ def build_vocab(tokenizer, texts, min_freq=2, max_size=30000):
     itos = {idx: tok for tok, idx in stoi.items()}
     PAD_IDX, UNK_IDX = stoi["<pad>"], stoi["<unk>"]
     return stoi, itos, PAD_IDX, UNK_IDX
+
 
 # Define a custom Dataset and collate function
 class DisasterTweetsDataset(Dataset):
@@ -42,11 +44,13 @@ class DisasterTweetsDataset(Dataset):
     def __len__(self): return len(self.seqs)
     def __getitem__(self, idx): return self.seqs[idx], self.labels[idx]
 
+
 def collate_pad(batch, pad_idx):
     seqs, labels = zip(*batch)
     lens = torch.tensor([len(s) for s in seqs])
     seqs_padded = pad_sequence(seqs, batch_first=True, padding_value=pad_idx)
     return seqs_padded, lens, torch.tensor(labels)
+
 
 # Define model structure
 class TweetClassifier(nn.Module):
@@ -72,6 +76,7 @@ class TweetClassifier(nn.Module):
             h = hn[-1]
         return self.fc(self.drop(h))
 
+
 # Define training and evaluation functions
 def train_epoch(model, loader, opt, loss_fn, device):
     model.train()
@@ -90,6 +95,7 @@ def train_epoch(model, loader, opt, loss_fn, device):
         n += y.size(0)
     return tot_loss / n, tot_corr / n
 
+
 @torch.no_grad()
 def evaluate(model, loader, loss_fn, device):
     model.eval()
@@ -103,6 +109,7 @@ def evaluate(model, loader, loss_fn, device):
         n += y.size(0)
     return tot_loss / n, tot_corr / n
 
+
 # Define prediction function
 @torch.no_grad()
 def predict(model, loader, device):
@@ -114,7 +121,8 @@ def predict(model, loader, device):
         preds.extend(logits.argmax(1).cpu().tolist())
     return preds
 
-# Define main function to handle command line arguments and execute training or prediction
+
+# Define main function to handle command line arguments and execute
 def main():
     parser = argparse.ArgumentParser(
         description="Train or predict a disaster-tweet classifier.")
@@ -160,16 +168,16 @@ def main():
             return DataLoader(ds, batch_size=batch, shuffle=shuffle,
                               collate_fn=lambda b: collate_pad(b, PAD_IDX),
                               drop_last=False)
-        
+
         train_dl = make_loader(train_df, 64, True)
-        val_dl   = make_loader(val_df,   128, False)
+        val_dl = make_loader(val_df, 128, False)
 
         # Build and train the model
         model = TweetClassifier(len(stoi), embed_dim=200, hidden_dim=128,
                                 num_layers=2, pad_idx=PAD_IDX).to(device)
-        opt      = AdamW(model.parameters(), lr=2e-4, weight_decay=1e-5)
-        scheduler= ReduceLROnPlateau(opt, factor=0.5, patience=1)
-        loss_fn  = nn.CrossEntropyLoss()
+        opt = AdamW(model.parameters(), lr=2e-4, weight_decay=1e-5)
+        scheduler = ReduceLROnPlateau(opt, factor=0.5, patience=1)
+        loss_fn = nn.CrossEntropyLoss()
 
         best_acc = 0
         for epoch in range(1, args.epochs+1):
@@ -189,15 +197,16 @@ def main():
                     "unk_idx": UNK_IDX,
                 }, os.path.join(args.model_dir, "bilstm.pt"))
 
-        print(f"Model training completed with best validation accuracy: {best_acc:.3f}")
+        print(f"Model training completed with validation accuracy: {best_acc:.3f}")
 
     # Prediction section
     else:
         print("Starting prediction...")
         # Load the model and vocabulary
         vocab = json.load(open(os.path.join(args.model_dir, "vocab.json")))
-        stoi  = {tok: int(idx) for idx, tok in vocab["itos"].items()}
-        PAD_IDX = stoi["<pad>"]; UNK_IDX = stoi["<unk>"]
+        stoi = {tok: int(idx) for idx, tok in vocab["itos"].items()}
+        PAD_IDX = stoi["<pad>"]
+        UNK_IDX = stoi["<unk>"]
 
         ckpt = torch.load(os.path.join(args.model_dir, "bilstm.pt"),
                           map_location=device)
@@ -226,10 +235,11 @@ def main():
         preds = predict(model,
                         ((x, lens) for x, lens in test_dl),
                         device)
-        
+
         pd.DataFrame({"id": test_df["id"], "target": preds}) \
           .to_csv("predictions.csv", index=False)
         print("Saved predictions.csv")
+
 
 if __name__ == "__main__":
     main()
