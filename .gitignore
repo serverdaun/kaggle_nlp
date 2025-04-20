@@ -155,8 +155,5 @@ datasets/
 results/
 outputs/
 
-# Tests folder
-tests/
-
 # Model folder
 model/
