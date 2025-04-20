@@ -2,3 +2,5 @@ pandas
 torch
 torchtext
 scikit-learn
+pytest
+flake8
