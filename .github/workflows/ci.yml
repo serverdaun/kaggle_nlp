@@ -25,7 +25,7 @@ jobs:
 
       - name: Lint with flake8
         run: |
-          flake8 kaggle_nlp/ utils/ tests/
+          flake8 kaggle_nlp/ kaggle_nlp/utils/ tests/
 
       - name: Run tests with pytest
         run: |
